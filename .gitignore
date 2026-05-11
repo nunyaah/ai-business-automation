@@ -1,0 +1,9 @@
+smb-automation.md
+.env
+
+**/.pytest_cache/
+**/__pycache__/
+
+**/invoices.db
+
+.claude
