@@ -1,0 +1,13 @@
+INVOICE
+Vendor: TechGear Direct
+Invoice #: INV-TG-0042
+Invoice Date: 2024-03-14
+Due Date: 2024-04-14
+PO Number: N/A
+Line Items
+Description Amount (USD)
+Laptop stand x3 $225.00
+USB-C hubs x3 $135.00
+<b>Total: $360.00</b>
+Note: PO to be confirmed.
+Payment terms: Net 30. Bank transfer to Account #: 12-3456-789.

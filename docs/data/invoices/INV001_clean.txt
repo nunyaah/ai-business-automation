@@ -1,0 +1,14 @@
+INVOICE
+Vendor: Acme Supplies Ltd
+Invoice #: INV-2024-001
+Invoice Date: 2024-03-12
+Due Date: 2024-04-12
+PO Number: PO-2024-100
+Line Items
+Description Amount (USD)
+Office chairs x5 $1,000.00
+Ergonomic keyboards x10 $450.00
+Delivery & handling $50.00
+<b>Total: $1,500.00</b>
+Note: Thank you for your business.
+Payment terms: Net 30. Bank transfer to Account #: 12-3456-789.

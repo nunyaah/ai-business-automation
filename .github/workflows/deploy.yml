@@ -1,0 +1,59 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Inject API key
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: |
+          python3 << 'PYEOF'
+          import os, json, pathlib, sys
+
+          key = os.environ.get('GROQ_API_KEY', '').strip()
+          if not key:
+              sys.exit('ERROR: GROQ_API_KEY secret is empty or unset')
+          if not key.startswith('gsk_'):
+              sys.exit(f'ERROR: GROQ_API_KEY does not look like a Groq key (starts with {key[:4]!r})')
+
+          p = pathlib.Path('docs/index.html')
+          content = p.read_text()
+          target = "'__GROQ_API_KEY__'"   # full JS string literal, including quotes
+          if target not in content:
+              sys.exit(f'ERROR: placeholder {target} not found in docs/index.html')
+
+          # json.dumps safely escapes any quote/backslash/newline in the key
+          content = content.replace(target, json.dumps(key), 1)
+          p.write_text(content)
+          print(f'OK: injected key of length {len(key)} (prefix {key[:6]}...)')
+          PYEOF
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+
+      - uses: actions/deploy-pages@v4
+        id: deploy

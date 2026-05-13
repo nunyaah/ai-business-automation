@@ -1,0 +1,102 @@
+[
+  {
+    "ticket_id": "TKT-4821",
+    "subject": "Cannot access my account after password reset",
+    "body": "I reset my password yesterday but still can't log in. I've tried 3 times. I have an important meeting in 2 hours and need access urgently.",
+    "customer_tier": "premium",
+    "submitted_at": "2024-03-12T09:15:00Z",
+    "_expected_priority": "P1",
+    "_expected_escalate": true,
+    "_expected_category": "Authentication"
+  },
+  {
+    "ticket_id": "TKT-4822",
+    "subject": "Payment declined but money taken from account",
+    "body": "I tried to upgrade my plan and the payment was declined, but I can see the charge on my bank statement. Please help.",
+    "customer_tier": "standard",
+    "submitted_at": "2024-03-12T10:00:00Z",
+    "_expected_priority": "P1",
+    "_expected_escalate": true,
+    "_expected_category": "Billing"
+  },
+  {
+    "ticket_id": "TKT-4823",
+    "subject": "Export button not working",
+    "body": "When I click the Export to CSV button on the reports page, nothing happens. This has been the case for the past two days.",
+    "customer_tier": "standard",
+    "submitted_at": "2024-03-12T11:30:00Z",
+    "_expected_priority": "P2",
+    "_expected_escalate": false,
+    "_expected_category": "Bug Report"
+  },
+  {
+    "ticket_id": "TKT-4824",
+    "subject": "How do I add team members?",
+    "body": "Hi, I want to invite two colleagues to my workspace. Where do I find the team settings? I've looked in Settings but can't find it.",
+    "customer_tier": "standard",
+    "submitted_at": "2024-03-12T13:00:00Z",
+    "_expected_priority": "P3",
+    "_expected_escalate": false,
+    "_expected_category": "General Inquiry"
+  },
+  {
+    "ticket_id": "TKT-4825",
+    "subject": "Dashboard loading very slowly",
+    "body": "The dashboard is taking 15-20 seconds to load every time. It was fast last week. Not urgent but please fix when you can.",
+    "customer_tier": "free",
+    "submitted_at": "2024-03-12T14:00:00Z",
+    "_expected_priority": "P2",
+    "_expected_escalate": false,
+    "_expected_category": "Performance"
+  },
+  {
+    "ticket_id": "TKT-4826",
+    "subject": "All my data is gone",
+    "body": "I logged in this morning and all my project data from the last 6 months is missing. This is a disaster — we have client deliverables due today.",
+    "customer_tier": "premium",
+    "submitted_at": "2024-03-12T08:00:00Z",
+    "_expected_priority": "P1",
+    "_expected_escalate": true,
+    "_expected_category": "Data"
+  },
+  {
+    "ticket_id": "TKT-4827",
+    "subject": "Feature request: dark mode",
+    "body": "Would love a dark mode option. My eyes get tired using the app at night. Not urgent at all, just a suggestion!",
+    "customer_tier": "standard",
+    "submitted_at": "2024-03-12T15:30:00Z",
+    "_expected_priority": "P3",
+    "_expected_escalate": false,
+    "_expected_category": "Feature Request"
+  },
+  {
+    "ticket_id": "TKT-4828",
+    "subject": "Billing question about annual plan",
+    "body": "I'm currently on monthly billing and want to switch to annual. Will I be charged the difference immediately? What's the refund policy?",
+    "customer_tier": "standard",
+    "submitted_at": "2024-03-12T16:00:00Z",
+    "_expected_priority": "P2",
+    "_expected_escalate": false,
+    "_expected_category": "Billing"
+  },
+  {
+    "ticket_id": "TKT-4829",
+    "subject": "Zapier integration broken",
+    "body": "Our Zapier zap that syncs new records to our CRM stopped working last night. We're missing leads. Can you check the API?",
+    "customer_tier": "premium",
+    "submitted_at": "2024-03-12T07:45:00Z",
+    "_expected_priority": "P2",
+    "_expected_escalate": true,
+    "_expected_category": "Integration"
+  },
+  {
+    "ticket_id": "TKT-4830",
+    "subject": "Love the product, just a small question",
+    "body": "Really enjoying the tool so far! Quick question — is there a keyboard shortcut to save? I couldn't find it in the docs.",
+    "customer_tier": "free",
+    "submitted_at": "2024-03-12T17:00:00Z",
+    "_expected_priority": "P3",
+    "_expected_escalate": false,
+    "_expected_category": "General Inquiry"
+  }
+]

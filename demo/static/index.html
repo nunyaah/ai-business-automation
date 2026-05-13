@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Business Automation — Live Demo</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --surface2: #263348;
+      --border: #334155;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --invoice: #f59e0b;
+      --lead: #3b82f6;
+      --ticket: #10b981;
+      --red: #ef4444;
+      --yellow: #f59e0b;
+      --green: #22c55e;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 20px 32px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    header .logo { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; }
+    header .logo span { color: var(--muted); font-weight: 400; }
+    header .tagline {
+      margin-left: auto;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    /* ── Tabs ── */
+    .tabs {
+      display: flex;
+      gap: 4px;
+      padding: 24px 32px 0;
+    }
+    .tab-btn {
+      background: none;
+      border: 1px solid var(--border);
+      border-bottom: none;
+      border-radius: 8px 8px 0 0;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 10px 20px;
+      transition: all 0.15s;
+    }
+    .tab-btn:hover { color: var(--text); background: var(--surface2); }
+    .tab-btn.active { background: var(--surface); color: var(--text); }
+    .tab-btn[data-agent="invoice"].active { border-color: var(--invoice); color: var(--invoice); }
+    .tab-btn[data-agent="lead"].active    { border-color: var(--lead);    color: var(--lead);    }
+    .tab-btn[data-agent="ticket"].active  { border-color: var(--ticket);  color: var(--ticket);  }
+
+    /* ── Panel ── */
+    .panels { padding: 0 32px 32px; }
+    .agent-panel { display: none; background: var(--surface); border: 1px solid var(--border); border-radius: 0 8px 8px 8px; padding: 28px; }
+    .agent-panel.active { display: block; }
+    .agent-panel[data-agent="invoice"] { border-top-color: var(--invoice); }
+    .agent-panel[data-agent="lead"]    { border-top-color: var(--lead);    }
+    .agent-panel[data-agent="ticket"]  { border-top-color: var(--ticket);  }
+
+    .panel-header { margin-bottom: 20px; }
+    .panel-header h2 { font-size: 18px; font-weight: 600; margin-bottom: 6px; }
+    .panel-header p  { color: var(--muted); font-size: 13px; max-width: 640px; }
+
+    /* ── Controls ── */
+    .controls {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .controls label { color: var(--muted); font-size: 12px; white-space: nowrap; }
+    select {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-size: 13px;
+      padding: 8px 12px;
+      flex: 1;
+      min-width: 220px;
+      max-width: 480px;
+      cursor: pointer;
+      outline: none;
+    }
+    select:focus { border-color: var(--muted); }
+    .run-btn {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 8px 20px;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .run-btn:hover:not(:disabled) { background: var(--border); }
+    .run-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    [data-agent="invoice"] .run-btn:hover:not(:disabled) { border-color: var(--invoice); color: var(--invoice); }
+    [data-agent="lead"]    .run-btn:hover:not(:disabled) { border-color: var(--lead);    color: var(--lead);    }
+    [data-agent="ticket"]  .run-btn:hover:not(:disabled) { border-color: var(--ticket);  color: var(--ticket);  }
+
+    /* ── Two-column layout ── */
+    .workspace {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 900px) { .workspace { grid-template-columns: 1fr; } }
+
+    /* ── Output box ── */
+    .output-box {
+      background: #0a1220;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-family: 'Menlo', 'Consolas', monospace;
+      font-size: 12px;
+      min-height: 360px;
+      max-height: 560px;
+      overflow-y: auto;
+      padding: 16px;
+    }
+    .output-box .placeholder { color: var(--muted); }
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 3px 0;
+      color: var(--muted);
+    }
+    .step .icon { color: var(--green); flex-shrink: 0; }
+    .step.error .icon { color: var(--red); }
+    .step.error { color: var(--red); }
+    .step.done .icon { color: var(--green); }
+    .step.done { color: var(--green); }
+
+    .pdf-preview, .input-preview {
+      margin: 8px 0;
+      border-left: 2px solid var(--border);
+      padding-left: 10px;
+    }
+    .section-label {
+      color: var(--muted);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 4px;
+    }
+    .pdf-preview pre, .input-preview pre {
+      color: #7dd3fc;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-size: 11px;
+      max-height: 140px;
+      overflow-y: auto;
+    }
+
+    .token-wrapper { margin: 8px 0; border-left: 2px solid var(--border); padding-left: 10px; }
+    .token-stream {
+      color: #a5f3fc;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-size: 11px;
+      max-height: 160px;
+      overflow-y: auto;
+    }
+
+    /* ── Result panel ── */
+    .result-box { overflow-y: auto; max-height: 560px; }
+    .result-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      min-height: 360px;
+    }
+    .result-placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 360px;
+      color: var(--muted);
+      font-size: 13px;
+      background: var(--surface2);
+      border: 1px dashed var(--border);
+      border-radius: 8px;
+    }
+
+    .result-title { font-size: 15px; font-weight: 600; margin-bottom: 16px; }
+
+    .fields-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .field { display: flex; flex-direction: column; gap: 2px; }
+    .field .label { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; }
+    .field .val { font-size: 13px; font-weight: 500; }
+
+    .line-items-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0;
+      font-size: 12px;
+    }
+    .line-items-table th {
+      text-align: left;
+      color: var(--muted);
+      font-weight: 500;
+      padding: 4px 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    .line-items-table td { padding: 5px 8px; border-bottom: 1px solid #1e293b; }
+    .line-items-table tfoot td { border-top: 1px solid var(--border); font-weight: 600; padding-top: 8px; }
+    .amount { text-align: right; font-variant-numeric: tabular-nums; }
+
+    .confidence-row { color: var(--muted); font-size: 12px; margin: 10px 0; }
+
+    .flags-section { margin-top: 14px; }
+    .flags-label { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
+    .flag {
+      border-radius: 6px;
+      font-size: 12px;
+      margin: 4px 0;
+      padding: 8px 12px;
+    }
+    .flag-high   { background: rgba(239, 68, 68,  0.12); border: 1px solid rgba(239, 68, 68,  0.3); color: #fca5a5; }
+    .flag-medium { background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.3); color: #fcd34d; }
+    .flag-low    { background: rgba(34, 197, 94,  0.12); border: 1px solid rgba(34, 197, 94,  0.3); color: #86efac; }
+
+    /* Badges */
+    .badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+    .badge {
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      padding: 3px 10px;
+      text-transform: uppercase;
+    }
+    .badge-green  { background: rgba(34, 197, 94,  0.15); border: 1px solid rgba(34, 197, 94,  0.4); color: #86efac; }
+    .badge-red    { background: rgba(239, 68, 68,  0.15); border: 1px solid rgba(239, 68, 68,  0.4); color: #fca5a5; }
+    .badge-yellow { background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.4); color: #fcd34d; }
+    .badge-blue   { background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.4); color: #93c5fd; }
+    .badge-muted  { background: rgba(148, 163, 184, 0.1); border: 1px solid rgba(148, 163, 184, 0.3); color: var(--muted); }
+
+    /* MAN scores */
+    .man-scores { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
+    .man-dim {}
+    .dim-header { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+    .dim-name { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; width: 70px; flex-shrink: 0; }
+    .score-bar-wrap { flex: 1; display: flex; align-items: center; gap: 8px; }
+    .score-track { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+    .score-fill  { height: 100%; background: var(--lead); border-radius: 3px; transition: width 0.5s ease; }
+    .score-num   { font-size: 12px; font-weight: 600; color: var(--text); width: 32px; text-align: right; flex-shrink: 0; }
+    .dim-reasoning { color: var(--muted); font-size: 12px; padding-left: 80px; }
+
+    .action-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      margin: 10px 0;
+      padding: 12px 14px;
+    }
+    .action-label { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+    .action-text  { font-size: 13px; line-height: 1.6; }
+    .action-text.italic { font-style: italic; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">AI Business Automation <span>/ Live Demo</span></div>
+  <div class="tagline">Powered by Groq · llama-3.3-70b-versatile · Streaming</div>
+</header>
+
+<div class="tabs">
+  <button class="tab-btn active" data-agent="invoice" onclick="switchTab('invoice')">📄 Invoice Processing</button>
+  <button class="tab-btn"        data-agent="lead"    onclick="switchTab('lead')">🎯 Lead Qualifier</button>
+  <button class="tab-btn"        data-agent="ticket"  onclick="switchTab('ticket')">🎫 Ticket Triage</button>
+</div>
+
+<div class="panels">
+
+  <!-- Invoice -->
+  <div class="agent-panel active" id="panel-invoice" data-agent="invoice">
+    <div class="panel-header">
+      <h2>Invoice Processing Agent</h2>
+      <p>Extracts structured data from PDF invoices and runs deterministic business rule validation — flags missing POs, amount thresholds, and line item mismatches.</p>
+    </div>
+    <div class="controls">
+      <label>Sample invoice:</label>
+      <select id="samples-invoice"></select>
+      <button class="run-btn" onclick="runAgent('invoice')">▶ Run Agent</button>
+    </div>
+    <div class="workspace">
+      <div>
+        <div class="section-label" style="margin-bottom:8px;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;">Live Output</div>
+        <div class="output-box" id="output-invoice">
+          <span class="placeholder">Select a sample and click Run Agent to start.</span>
+        </div>
+      </div>
+      <div>
+        <div class="section-label" style="margin-bottom:8px;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;">Result</div>
+        <div class="result-box" id="result-invoice">
+          <div class="result-placeholder">Result will appear here after processing.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lead -->
+  <div class="agent-panel" id="panel-lead" data-agent="lead">
+    <div class="panel-header">
+      <h2>Lead Qualifier Agent</h2>
+      <p>Scores inbound B2B leads against the MAN framework (Money, Authority, Need), assigns a qualification tier, and generates a personalised follow-up message.</p>
+    </div>
+    <div class="controls">
+      <label>Sample lead:</label>
+      <select id="samples-lead"></select>
+      <button class="run-btn" onclick="runAgent('lead')">▶ Run Agent</button>
+    </div>
+    <div class="workspace">
+      <div>
+        <div class="section-label" style="margin-bottom:8px;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;">Live Output</div>
+        <div class="output-box" id="output-lead">
+          <span class="placeholder">Select a sample and click Run Agent to start.</span>
+        </div>
+      </div>
+      <div>
+        <div class="section-label" style="margin-bottom:8px;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;">Result</div>
+        <div class="result-box" id="result-lead">
+          <div class="result-placeholder">Result will appear here after processing.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ticket -->
+  <div class="agent-panel" id="panel-ticket" data-agent="ticket">
+    <div class="panel-header">
+      <h2>Ticket Triage Agent</h2>
+      <p>Classifies support tickets by priority (P1/P2/P3), assigns a category, enforces escalation rules deterministically, and drafts an empathetic first response.</p>
+    </div>
+    <div class="controls">
+      <label>Sample ticket:</label>
+      <select id="samples-ticket"></select>
+      <button class="run-btn" onclick="runAgent('ticket')">▶ Run Agent</button>
+    </div>
+    <div class="workspace">
+      <div>
+        <div class="section-label" style="margin-bottom:8px;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;">Live Output</div>
+        <div class="output-box" id="output-ticket">
+          <span class="placeholder">Select a sample and click Run Agent to start.</span>
+        </div>
+      </div>
+      <div>
+        <div class="section-label" style="margin-bottom:8px;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;">Result</div>
+        <div class="result-box" id="result-ticket">
+          <div class="result-placeholder">Result will appear here after processing.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

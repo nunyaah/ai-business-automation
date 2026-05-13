@@ -1,0 +1,90 @@
+[
+  {
+    "name": "Sarah Khan",
+    "company": "TechRetail PK",
+    "role": "Operations Manager",
+    "email": "sarah@techretail.pk",
+    "inquiry": "We have around 500 support tickets per month and our team is struggling to keep up. Heard AI can help.",
+    "company_size": "50-100 employees",
+    "source": "contact_form",
+    "_expected_qualification": "QUALIFIED",
+    "_expected_priority": "HIGH"
+  },
+  {
+    "name": "James Okafor",
+    "company": "Meridian Consulting",
+    "role": "CEO",
+    "email": "james@meridianconsulting.com",
+    "inquiry": "We process about 200 invoices per month manually. My finance team spends 10 hours a week on this and I want to automate it. We have budget approved for Q1.",
+    "company_size": "20-50 employees",
+    "source": "referral",
+    "_expected_qualification": "QUALIFIED",
+    "_expected_priority": "HIGH"
+  },
+  {
+    "name": "Priya Nair",
+    "company": "Freelance",
+    "role": "Freelance Designer",
+    "email": "priya@gmail.com",
+    "inquiry": "Hi, I was just curious about what AI can do for invoices. No urgent need, just exploring.",
+    "company_size": "1",
+    "source": "twitter",
+    "_expected_qualification": "DISQUALIFIED",
+    "_expected_priority": "LOW"
+  },
+  {
+    "name": "Marcus Webb",
+    "company": "BuildRight Construction",
+    "role": "Finance Director",
+    "email": "mwebb@buildright.com",
+    "inquiry": "Our accounts payable process is a mess — we're losing track of invoices, missing payments, and getting charged late fees. We need a solution this quarter.",
+    "company_size": "100-250 employees",
+    "source": "linkedin",
+    "_expected_qualification": "QUALIFIED",
+    "_expected_priority": "HIGH"
+  },
+  {
+    "name": "Aisha Malik",
+    "company": "Spark Academy",
+    "role": "Operations Lead",
+    "email": "aisha@sparkacademy.edu",
+    "inquiry": "We run an online education platform with a small support team. We get maybe 80-100 student tickets per week and response times are getting slow.",
+    "company_size": "10-20 employees",
+    "source": "contact_form",
+    "_expected_qualification": "QUALIFIED",
+    "_expected_priority": "MEDIUM"
+  },
+  {
+    "name": "Tom Griffiths",
+    "company": "Griffiths & Sons Plumbing",
+    "role": "Owner",
+    "email": "tom@griffithsplumbing.co.uk",
+    "inquiry": "I run a small plumbing business, just me and two apprentices. Not sure if AI is right for us but someone told me it could help with paperwork.",
+    "company_size": "1-5 employees",
+    "source": "google_ads",
+    "_expected_qualification": "UNQUALIFIED",
+    "_expected_priority": "LOW"
+  },
+  {
+    "name": "Lisa Chen",
+    "company": "Nexus SaaS",
+    "role": "VP of Customer Success",
+    "email": "lchen@nexussaas.com",
+    "inquiry": "We have 3 support agents handling 2000 tickets per month and our CSAT is dropping. I have budget and exec buy-in to fix this before next quarter.",
+    "company_size": "50-100 employees",
+    "source": "demo_request",
+    "_expected_qualification": "QUALIFIED",
+    "_expected_priority": "HIGH"
+  },
+  {
+    "name": "David Park",
+    "company": "Park Accounting Services",
+    "role": "Senior Accountant",
+    "email": "dpark@parkaccounting.com",
+    "inquiry": "We handle bookkeeping for about 30 SMB clients. Invoice processing is taking a lot of time every month.",
+    "company_size": "5-10 employees",
+    "source": "contact_form",
+    "_expected_qualification": "QUALIFIED",
+    "_expected_priority": "MEDIUM"
+  }
+]

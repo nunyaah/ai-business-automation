@@ -1,0 +1,14 @@
+INVOICE
+Vendor: Enterprise Fixtures Co
+Invoice #: EFC-20240315
+Invoice Date: 2024-03-15
+Due Date: 2024-04-15
+PO Number: N/A
+Line Items
+Description Amount (USD)
+Standing desks x10 $6,500.00
+Monitor arms x10 $1,200.00
+Cable management kits x10 $300.00
+White-glove delivery $400.00
+<b>Total: $8,400.00</b>
+Payment terms: Net 30. Bank transfer to Account #: 12-3456-789.

@@ -55,13 +55,50 @@ Each agent ships with a FastAPI REST interface, Pydantic v2 validation, SQLite l
 
 ---
 
-## Get Started
+## Live Demo
+
+A unified demo interface lets you see all three agents in action — pick a sample, hit Run, and watch the model stream its response in real time.
+
+**Two ways to run it:**
+
+### Option 1 — Deploy to GitHub Pages (zero-cost hosting)
+
+The repo ships with a GitHub Actions workflow ([`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)) that builds [`docs/`](docs/) as a fully client-side site calling the Groq API directly from the browser.
+
+1. Fork or push this repo to GitHub
+2. Add your Groq API key as a repo secret named `GROQ_API_KEY` (Settings → Secrets and variables → Actions)
+3. Enable GitHub Pages (Settings → Pages → Source: **GitHub Actions**)
+4. Push to `main` — the workflow injects the key into [`docs/index.html`](docs/index.html) and deploys
+
+> ⚠️ The API key is embedded in the deployed HTML — anyone visiting the site can extract it. Use a free-tier key with rate limits, not a production key.
+
+### Option 2 — Run locally with the FastAPI backend
 
 ```bash
-# Run any agent
+cd demo
+cp .env.example .env          # add your GROQ_API_KEY
+pip install -r requirements.txt
+python -m uvicorn main:app --reload --port 8080
+# Open http://localhost:8080
+```
+
+Or with Docker:
+
+```bash
+docker build -f demo/Dockerfile -t ai-demo .
+docker run -e GROQ_API_KEY=your_key -p 8080:8080 ai-demo
+```
+
+---
+
+## Individual Agents
+
+Each agent also runs as a standalone FastAPI service:
+
+```bash
 cd invoice-agent   # or lead-qualifier / ticket-triage
 pip install -r requirements.txt
-uvicorn app.main:app --reload
+uvicorn src.api.main:app --reload
 ```
 
 Each agent folder contains its own README with endpoint docs, example payloads, and deployment notes.

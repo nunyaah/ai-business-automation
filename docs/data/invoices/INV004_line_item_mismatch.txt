@@ -1,0 +1,13 @@
+INVOICE
+Vendor: Stationery World
+Invoice #: SW-INV-0091
+Invoice Date: 2024-03-18
+Due Date: 2024-04-18
+PO Number: PO-2024-205
+Line Items
+Description Amount (USD)
+A4 paper reams x20 $160.00
+Ballpoint pens x100 $45.00
+Sticky notes x50 packs $75.00
+<b>Total: $295.00</b>
+Payment terms: Net 30. Bank transfer to Account #: 12-3456-789.
