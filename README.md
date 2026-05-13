@@ -4,6 +4,10 @@
 
 This repo contains three production-ready AI agents that automate high-volume, repetitive business operations — invoice processing, sales lead qualification, and support ticket triage. Each agent is a FastAPI service you can drop into your stack today.
 
+### 🚀 [**Try the live demo →**](https://nunyaah.github.io/ai-business-automation/)
+
+Pick a sample, hit Run, and watch the AI stream its response in real time. No setup, no signup.
+
 ---
 
 ## The Agents
@@ -57,22 +61,29 @@ Each agent ships with a FastAPI REST interface, Pydantic v2 validation, SQLite l
 
 ## Live Demo
 
-A unified demo interface lets you see all three agents in action — pick a sample, hit Run, and watch the model stream its response in real time.
+The demo is hosted on **GitHub Pages** at **[nunyaah.github.io/ai-business-automation](https://nunyaah.github.io/ai-business-automation/)**.
 
-**Two ways to run it:**
+Pick any of the three agents, choose a sample from local data, and watch Groq's `llama-3.3-70b-versatile` stream its response token-by-token through the UI. Business rules (invoice flags, lead qualification tiers, ticket escalation) run deterministically in the browser after the model returns.
 
-### Option 1 — Deploy to GitHub Pages (zero-cost hosting)
+### How the hosted demo works
 
-The repo ships with a GitHub Actions workflow ([`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)) that builds [`docs/`](docs/) as a fully client-side site calling the Groq API directly from the browser.
+- The entire UI is a single static page in [`docs/index.html`](docs/index.html) — no backend
+- Sample data (invoices, leads, tickets) is bundled as static files under [`docs/data/`](docs/data/)
+- The browser calls the Groq API directly using SSE streaming
+- The [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) workflow injects the `GROQ_API_KEY` repo secret into the HTML at build time and publishes to Pages
 
-1. Fork or push this repo to GitHub
-2. Add your Groq API key as a repo secret named `GROQ_API_KEY` (Settings → Secrets and variables → Actions)
-3. Enable GitHub Pages (Settings → Pages → Source: **GitHub Actions**)
-4. Push to `main` — the workflow injects the key into [`docs/index.html`](docs/index.html) and deploys
+### Fork & redeploy your own copy
 
-> ⚠️ The API key is embedded in the deployed HTML — anyone visiting the site can extract it. Use a free-tier key with rate limits, not a production key.
+1. Fork this repo
+2. Settings → Secrets and variables → Actions → add `GROQ_API_KEY` (get one free at [console.groq.com](https://console.groq.com))
+3. Settings → Pages → Source: **GitHub Actions**
+4. Push to `main` — the workflow handles the rest
 
-### Option 2 — Run locally with the FastAPI backend
+> ⚠️ The injected key ends up visible in the deployed HTML. Use a free-tier Groq key with rate limits, not a production key.
+
+### Run locally (with the FastAPI backend)
+
+If you want the agents running on your own machine with the original Python implementation:
 
 ```bash
 cd demo
