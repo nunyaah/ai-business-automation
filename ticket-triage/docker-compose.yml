@@ -1,0 +1,13 @@
+services:
+  ticket-triage:
+    build: .
+    ports:
+      - "8002:8002"
+    env_file:
+      - .env
+    volumes:
+      - ticket_data:/data
+    restart: unless-stopped
+
+volumes:
+  ticket_data:
